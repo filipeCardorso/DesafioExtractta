@@ -58,10 +58,6 @@ Ideal para execução em esteiras de CI/CD e para gerar os relatórios.
 ```bash
 npx cypress run
 ```
-Para rodar um arquivo específico:
-```bash
-npx cypress run --spec "cypress/e2e/board_crud.cy.js"
-```
 
 ## 📊 Visualizando os Relatórios
 
