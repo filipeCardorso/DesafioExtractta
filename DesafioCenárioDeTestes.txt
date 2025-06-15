@@ -1,0 +1,108 @@
+Cenários de Testes para a Tela de Tranferência
+
+Grupo 1: Testes Funcionais - Caminho Feliz 
+
+Cenáro 1.1: Transferência bem-sucessedida com data atual
+
+Dado que o usuário tem um saldo de R$200,00.
+Quando o usuário preenche o "Cliente destino" com o número de conta válido.
+E preenche  o "Valor" com R$100,00.
+E deixa o campo "Data de efetivação" em branco (ou preenchido com a data atual).
+E clicar em "Transferir".
+Então a tranferência deve ser processada com sucesso.
+E o saldo do usuário na tela principal deve ser atualizado para R$100,00
+E uma tela de confirmação deve ser exibida 
+
+Cenário 1.2: Tranferência de todo o saldo disponível
+
+Dado que o usuário tem um saldo de R$200,00
+Quando o usuário preenche o "Cliente destino" com o número de conta válido.
+E preenche  o "Valor" com R$200,00.
+E clicar em "Transferir"
+Então a tranferência deve ser processada com sucesso.
+E o saldo do usuário na tela principal deve ser atualizado para R$0,00.
+
+Cenário 1.3: Tranferência com o valor minimo (EX: 1 centavo)
+
+Dado que o usuário tem um saldo de R$200,00
+Quando o usuário preenche o "Cliente destino" com o número de conta válido.
+E preenche  o "Valor" com R$0,01.
+E clicar em "Transferir"
+Então a tranferência deve ser processada com sucesso.
+E o saldo do usuário na tela principal deve ser atualizado para R$199,99.
+
+Cenário 1.4: Agendamento de tranfeência para data futura 
+
+Dado que o usuário tem um saldo de R$200,00
+Quando o usuário preenche o "Cliente destino" com o número de conta válido.
+E preenche  o "Valor" com R$50,00.
+E deixa o campo "Data de efetivação" com uma data futura válida (EX: amanhã)
+E clicar em "Transferir"
+Então a tranferência deve ser processada com sucesso.
+E o saldo do usuário não deve ser alterado imediatamente.
+E uma tela de confirmação deve ser exibida.
+
+
+Grupo 2: Testes Funcionais - Validações e Casos de Erro 
+
+Cenário 2.1: Tranferência com valor acima do saldo 
+Dado que o usuário tem um saldo de R$200,00.
+Quando o usuário preenche o "Cliente destino" com o número de conta válido.
+E preenche  o "Valor" com R$300,00.
+E clicar em "Transferir"
+Então o sistema deve exibir uma mensagem de erro clara, como "Saldo insuficiente".
+E a tranferência não deve ser realizada.
+
+Cenário 2.2: Campos obrigatórios em branco
+Dado que o usuário está na tela de tranferência 
+Quando o usuário deixa o campo "Cliente destino" ou "Valor" em branco. 
+E clicar em "Transferir"
+Então o sistema deve exibir uma mensagem de erro indicando qual campo obrigatório precisa ser preenchido.
+
+Cenário 2.3: Tranferência com valor inválido (zero ou negativo)
+Dado que o usuário está na tela de tranferência 
+Quando o usuário preenche o "Valor" com R$0,00 ou R$-50,00
+E preencher os outros campos corretamente
+E clicar em "Transferir"
+Então o sistema deve exibir uma mensagem de erro indicando (EX: "O valor deve ser maior que zero")
+
+Cenário 2.4: Data de efetivação passada 
+Dado que o usuário está na tela de tranferência.
+Quando o usuário preenche a "Data de fetivação" com a data antarior à data atual.
+E clicar em "Transferir"
+Então o sistema deve exibir uma mensagem de erro com "Data inválida"
+
+
+Grupo 3: Testes de Interface e Experiência do usuário (UI/UX)
+
+Cenário 3.1: Valiadação de layout e elementos visuais 
+Dado que o usuário acessou a tela de tranferência.
+Quando ele visualiza a tela.
+Então o titulo "Banco" e "Transferência entre correntitas" deve esta visíveis
+E todos os textos deve ser legíveis
+
+Cenário 3.2: Responsividade do layout 
+Dado que o aplicativo está aberto 
+Quando o usuário acessa a tela de tranferência em dispositivos com diferentes tamanhos de tela (celulares ou tablets) 
+Então o layout deve se ajustado de forma fluida, sem quebras ou sopreposição de elementos. 
+
+
+Grupo 4: Testes Não-Funcionais (Segurança e Performace)
+
+
+Cenário 4.1: Perda de conectividade
+Dado que o usuário preencheu todo os campos 
+Quando ele clica em "Tranferir" e perder a conexão com a internet no meio do processo
+Então a aplicativo deve exibir uma mensagem de erro de conectividade 
+E o saldo do usuário não deve dabitado
+
+Cenário 4.2: Prevenção de múltiplos cliques (Double Submit)
+Dado que o usuário preencheu todo os campos corretamente 
+Quando ele clica múltipas vezes e rapidamente no botão "Transferir"
+Então apenas a primeira solicitação de tranferência deve ser processada
+E as demais devem ser ignoradas 
+
+Cenário 4.3: Timeout de sessão
+Dado que o usuário abriu a tela de tranferência e a deixou inativa por um período de 5 minutos
+Quando ele tenta preencher os dados e clicar em "Tranferência"
+Então o sistema deve informar que a sessão expirou e solicita uma nova autenticação antes de continuar
